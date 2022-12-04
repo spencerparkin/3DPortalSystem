@@ -27,17 +27,17 @@ void InitTextureManager(void)
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	// Find the texture data directory.
-	if(chdir("TextureData") < 0)
+	if(_chdir("TextureData") < 0)
 	{
 		// Try one directory back.
-		chdir("..");
-		if(chdir("TextureData") < 0)
+		_chdir("..");
+		if(_chdir("TextureData") < 0)
 			fatal_error("Failed to find \"TextureData\" directory!");
 		else
-			chdir("..");
+			_chdir("..");
 	}
 	else
-		chdir("..");
+		_chdir("..");
 }
 
 void DeinitTextureManager(void)
@@ -299,7 +299,7 @@ static GLubyte *LoadTextureData(const char *filename, GLsizei *width, GLsizei *h
 	while(*str != '.' && *str != '\0')
 		str++;
 
-#if defind TIFF_SUPPORT
+#if defined TIFF_SUPPORT
 	if(strcmp(str, ".tif") == 0)
 		return LoadTIFTextureData(filename, width, height);
 #endif //TIFF_SUPPORT
