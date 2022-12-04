@@ -39,8 +39,8 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\glut-3.7.6-bin;OpenGL/include/;TIFF/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\ThirdParty\glut;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -130,7 +130,7 @@
     <ClInclude Include="surface.h" />
     <ClInclude Include="switch.h" />
     <ClInclude Include="teleport.h" />
-    <ClInclude Include="Tether.h" />
+    <ClInclude Include="tether.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="wall.h" />
   </ItemGroup>
