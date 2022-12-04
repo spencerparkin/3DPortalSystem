@@ -8,8 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#if defined TIFF_SUPPORT
 #include <tiff.h>
 #include <tiffio.h>
+#endif
 #include "texture.h"
 #include "macros.h"
 #include "main.h"
@@ -159,6 +161,8 @@ static bool is_pow_of_two(unsigned int x)
 	return false;
 }
 
+#if defined TIFF_SUPPORT
+
 // Load the pixel data from a TIF file.
 static GLubyte *LoadTIFTextureData(const char *filename, GLsizei *width, GLsizei *height)
 {
@@ -277,6 +281,8 @@ static GLubyte *LoadTIFTextureData(const char *filename, GLsizei *width, GLsizei
 	return data;
 }
 
+#endif //TIFF_SUPPORT
+
 // Load the pixel data from a BMP file.
 static GLubyte *LoadBMPTextureData(const char *filename, GLsizei *width, GLsizei *height)
 {
@@ -292,10 +298,15 @@ static GLubyte *LoadTextureData(const char *filename, GLsizei *width, GLsizei *h
 	const char *str = filename;
 	while(*str != '.' && *str != '\0')
 		str++;
+
+#if defind TIFF_SUPPORT
 	if(strcmp(str, ".tif") == 0)
 		return LoadTIFTextureData(filename, width, height);
+#endif //TIFF_SUPPORT
+
 	if(strcmp(str, ".bmp") == 0)
 		return LoadBMPTextureData(filename, width, height);
+
 	// Unsupported texture format!
 	fprintf(stderr, "\"%s\" is an unsupported texture format!\n", str);
 	return 0;
