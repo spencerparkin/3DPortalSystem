@@ -12,6 +12,10 @@
 #include <tiff.h>
 #include <tiffio.h>
 #endif
+#if defined BMP_SUPPORT
+#include <Windows.h>
+#include <WinUser.h>
+#endif //BMP_SUPPORT
 #include "texture.h"
 #include "macros.h"
 #include "main.h"
@@ -89,62 +93,62 @@ static const char *TextureFilename(int tex_id)
 {
 	switch(tex_id)
 	{
-		case TEX_ID_BRICK_WALL_0:			return("TextureData/BrickWall0.tif");
-		case TEX_ID_ROCKS_0:				return("TextureData/Rocks0.tif");
-		case TEX_ID_STONE_WALL_0:			return("TextureData/StoneWall0.tif");
-		case TEX_ID_STONE_WALL_1:			return("TextureData/StoneWall1.tif");
-		case TEX_ID_STONE_FLOOR_0:			return("TextureData/StoneFloor0.tif");
-		case TEX_ID_MOON_0:					return("TextureData/Moon0.tif");
-		case TEX_ID_MOSAIC_0:				return("TextureData/Mosaic0.tif");
-		case TEX_ID_REPTILE_SKIN_0:			return("TextureData/ReptileSkin0.tif");
-		case TEX_ID_MARBLE_0:				return("TextureData/Marble0.tif");
-		case TEX_ID_COLIN_MOCHRIE_0:		return("TextureData/Colin0.tif");
-		case TEX_ID_COLIN_MOCHRIE_1:		return("TextureData/Colin1.tif");
-		case TEX_ID_COLIN_MOCHRIE_2:		return("TextureData/Colin2.tif");
-		case TEX_ID_RYAN_STILES_0:			return("TextureData/Ryan0.tif");
-		case TEX_ID_RYAN_STILES_1:			return("TextureData/Ryan1.tif");
-		case TEX_ID_RYAN_STILES_2:			return("TextureData/Ryan2.tif");
-		case TEX_ID_WAYNE_BRADY_0:			return("TextureData/Wayne0.tif");
-		case TEX_ID_WAYNE_BRADY_1:			return("TextureData/Wayne1.tif");
-		case TEX_ID_WAYNE_BRADY_2:			return("TextureData/Wayne2.tif");
-		case TEX_ID_GREG_PROOPS_0:			return("TextureData/Greg0.tif");
-		case TEX_ID_GREG_PROOPS_1:			return("TextureData/Greg1.tif");
-		case TEX_ID_GREG_PROOPS_2:			return("TextureData/Greg2.tif");
-		case TEX_ID_DREW_CAREY_0:			return("TextureData/Drew0.tif");
-		case TEX_ID_CLIVE_ANDERSON_0:		return("TextureData/Clive0.tif");
-		case TEX_ID_LEFT_DOOR_0:			return("TextureData/LeftDoor0.tif");
-		case TEX_ID_LEFT_DOOR_1:			return("TextureData/LeftDoor1.tif");
-		case TEX_ID_LEFT_DOOR_2:			return("TextureData/LeftDoor2.tif");
-		case TEX_ID_LEFT_DOOR_3:			return("TextureData/LeftDoor3.tif");
-		case TEX_ID_LEFT_DOOR_4:			return("TextureData/LeftDoor4.tif");
-		case TEX_ID_LEFT_DOOR_5:			return("TextureData/LeftDoor5.tif");
-		case TEX_ID_LEFT_DOOR_6:			return("TextureData/LeftDoor6.tif");
-		case TEX_ID_RIGHT_DOOR_0:			return("TextureData/RightDoor0.tif");
-		case TEX_ID_RIGHT_DOOR_1:			return("TextureData/RightDoor1.tif");
-		case TEX_ID_RIGHT_DOOR_2:			return("TextureData/RightDoor2.tif");
-		case TEX_ID_RIGHT_DOOR_3:			return("TextureData/RightDoor3.tif");
-		case TEX_ID_RIGHT_DOOR_4:			return("TextureData/RightDoor4.tif");
-		case TEX_ID_RIGHT_DOOR_5:			return("TextureData/RightDoor5.tif");
-		case TEX_ID_RIGHT_DOOR_6:			return("TextureData/RightDoor6.tif");
-		case TEX_ID_WALL_SWITCH_ON_0:		return("TextureData/WallSwitchOn0.tif");
-		case TEX_ID_WALL_SWITCH_OFF_0:		return("TextureData/WallSwitchOff0.tif");
-		case TEX_ID_SNOW_MAN_0:				return("TextureData/SnowMan0.tif");
-		case TEX_ID_SNOW_MAN_1:				return("TextureData/SnowMan1.tif");
-		case TEX_ID_SNOW_MAN_2:				return("TextureData/SnowMan2.tif");
-		case TEX_ID_RED_STONE_WALL_0:		return("TextureData/RedStoneWall0.tif");
-		case TEX_ID_GREEN_STONE_WALL_0:		return("TextureData/GreenStoneWall0.tif");
-		case TEX_ID_BLUE_STONE_WALL_0:		return("TextureData/BlueStoneWall0.tif");
-		case TEX_ID_CYAN_STONE_WALL_0:		return("TextureData/CyanStoneWall0.tif");
-		case TEX_ID_MAGENTA_STONE_WALL_0:	return("TextureData/MagentaStoneWall0.tif");
-		case TEX_ID_YELLOW_STONE_WALL_0:	return("TextureData/YellowStoneWall0.tif");
-		case TEX_ID_GALAXY_0:				return("TextureData/Galaxy0.tif");
-		case TEX_ID_PLANET_0:				return("TextureData/Planet0.tif");
-		case TEX_ID_BOOK_SHELF_0:			return("TextureData/BookShelf0.tif");
-		case TEX_ID_SPENCER_WALK_0:			return("TextureData/SpencerWalk0.tif");
-		case TEX_ID_SPENCER_WALK_1:			return("TextureData/SpencerWalk1.tif");
-		case TEX_ID_SPENCER_WALK_2:			return("TextureData/SpencerWalk2.tif");
-		case TEX_ID_SPENCER_WALK_3:			return("TextureData/SpencerWalk3.tif");
-		case TEX_ID_SPENCER_STAND_0:		return("TextureData/SpencerStand0.tif");
+		case TEX_ID_BRICK_WALL_0:			return("TextureData/BrickWall0.bmp");
+		case TEX_ID_ROCKS_0:				return("TextureData/Rocks0.bmp");
+		case TEX_ID_STONE_WALL_0:			return("TextureData/StoneWall0.bmp");
+		case TEX_ID_STONE_WALL_1:			return("TextureData/StoneWall1.bmp");
+		case TEX_ID_STONE_FLOOR_0:			return("TextureData/StoneFloor0.bmp");
+		case TEX_ID_MOON_0:					return("TextureData/Moon0.bmp");
+		case TEX_ID_MOSAIC_0:				return("TextureData/Mosaic0.bmp");
+		case TEX_ID_REPTILE_SKIN_0:			return("TextureData/ReptileSkin0.bmp");
+		case TEX_ID_MARBLE_0:				return("TextureData/Marble0.bmp");
+		case TEX_ID_COLIN_MOCHRIE_0:		return("TextureData/Colin0.bmp");
+		case TEX_ID_COLIN_MOCHRIE_1:		return("TextureData/Colin1.bmp");
+		case TEX_ID_COLIN_MOCHRIE_2:		return("TextureData/Colin2.bmp");
+		case TEX_ID_RYAN_STILES_0:			return("TextureData/Ryan0.bmp");
+		case TEX_ID_RYAN_STILES_1:			return("TextureData/Ryan1.bmp");
+		case TEX_ID_RYAN_STILES_2:			return("TextureData/Ryan2.bmp");
+		case TEX_ID_WAYNE_BRADY_0:			return("TextureData/Wayne0.bmp");
+		case TEX_ID_WAYNE_BRADY_1:			return("TextureData/Wayne1.bmp");
+		case TEX_ID_WAYNE_BRADY_2:			return("TextureData/Wayne2.bmp");
+		case TEX_ID_GREG_PROOPS_0:			return("TextureData/Greg0.bmp");
+		case TEX_ID_GREG_PROOPS_1:			return("TextureData/Greg1.bmp");
+		case TEX_ID_GREG_PROOPS_2:			return("TextureData/Greg2.bmp");
+		case TEX_ID_DREW_CAREY_0:			return("TextureData/Drew0.bmp");
+		case TEX_ID_CLIVE_ANDERSON_0:		return("TextureData/Clive0.bmp");
+		case TEX_ID_LEFT_DOOR_0:			return("TextureData/LeftDoor0.bmp");
+		case TEX_ID_LEFT_DOOR_1:			return("TextureData/LeftDoor1.bmp");
+		case TEX_ID_LEFT_DOOR_2:			return("TextureData/LeftDoor2.bmp");
+		case TEX_ID_LEFT_DOOR_3:			return("TextureData/LeftDoor3.bmp");
+		case TEX_ID_LEFT_DOOR_4:			return("TextureData/LeftDoor4.bmp");
+		case TEX_ID_LEFT_DOOR_5:			return("TextureData/LeftDoor5.bmp");
+		case TEX_ID_LEFT_DOOR_6:			return("TextureData/LeftDoor6.bmp");
+		case TEX_ID_RIGHT_DOOR_0:			return("TextureData/RightDoor0.bmp");
+		case TEX_ID_RIGHT_DOOR_1:			return("TextureData/RightDoor1.bmp");
+		case TEX_ID_RIGHT_DOOR_2:			return("TextureData/RightDoor2.bmp");
+		case TEX_ID_RIGHT_DOOR_3:			return("TextureData/RightDoor3.bmp");
+		case TEX_ID_RIGHT_DOOR_4:			return("TextureData/RightDoor4.bmp");
+		case TEX_ID_RIGHT_DOOR_5:			return("TextureData/RightDoor5.bmp");
+		case TEX_ID_RIGHT_DOOR_6:			return("TextureData/RightDoor6.bmp");
+		case TEX_ID_WALL_SWITCH_ON_0:		return("TextureData/WallSwitchOn0.bmp");
+		case TEX_ID_WALL_SWITCH_OFF_0:		return("TextureData/WallSwitchOff0.bmp");
+		case TEX_ID_SNOW_MAN_0:				return("TextureData/SnowMan0.bmp");
+		case TEX_ID_SNOW_MAN_1:				return("TextureData/SnowMan1.bmp");
+		case TEX_ID_SNOW_MAN_2:				return("TextureData/SnowMan2.bmp");
+		case TEX_ID_RED_STONE_WALL_0:		return("TextureData/RedStoneWall0.bmp");
+		case TEX_ID_GREEN_STONE_WALL_0:		return("TextureData/GreenStoneWall0.bmp");
+		case TEX_ID_BLUE_STONE_WALL_0:		return("TextureData/BlueStoneWall0.bmp");
+		case TEX_ID_CYAN_STONE_WALL_0:		return("TextureData/CyanStoneWall0.bmp");
+		case TEX_ID_MAGENTA_STONE_WALL_0:	return("TextureData/MagentaStoneWall0.bmp");
+		case TEX_ID_YELLOW_STONE_WALL_0:	return("TextureData/YellowStoneWall0.bmp");
+		case TEX_ID_GALAXY_0:				return("TextureData/Galaxy0.bmp");
+		case TEX_ID_PLANET_0:				return("TextureData/Planet0.bmp");
+		case TEX_ID_BOOK_SHELF_0:			return("TextureData/BookShelf0.bmp");
+		case TEX_ID_SPENCER_WALK_0:			return("TextureData/SpencerWalk0.bmp");
+		case TEX_ID_SPENCER_WALK_1:			return("TextureData/SpencerWalk1.bmp");
+		case TEX_ID_SPENCER_WALK_2:			return("TextureData/SpencerWalk2.bmp");
+		case TEX_ID_SPENCER_WALK_3:			return("TextureData/SpencerWalk3.bmp");
+		case TEX_ID_SPENCER_STAND_0:		return("TextureData/SpencerStand0.bmp");
 	}
 
 	return 0;
@@ -283,12 +287,65 @@ static GLubyte *LoadTIFTextureData(const char *filename, GLsizei *width, GLsizei
 
 #endif //TIFF_SUPPORT
 
+#if defined BMP_SUPPORT
+
 // Load the pixel data from a BMP file.
 static GLubyte *LoadBMPTextureData(const char *filename, GLsizei *width, GLsizei *height)
 {
-	fatal_error("BMP format not supported yet!");
-	return 0;
+	GLubyte* data = nullptr;
+
+	char fullPath[MAX_PATH];
+	strcpy_s(fullPath, sizeof(fullPath), ::_getcwd(NULL, 0));
+	strcat_s(fullPath, sizeof(fullPath), "\\");
+	strcat_s(fullPath, sizeof(fullPath), filename);
+
+	HBITMAP bitmapHandle = (HBITMAP)::LoadImage(::GetModuleHandle(NULL), fullPath, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	if (bitmapHandle != NULL)
+	{
+		SIZE size;
+		if (::GetBitmapDimensionEx(bitmapHandle, &size))
+		{
+			int buf_size = size.cx * size.cy * sizeof(GLubyte) * 4;
+			data = new GLubyte[buf_size];
+			memset((void*)data, 0, buf_size);
+
+			GLubyte* texel = data;
+
+			HDC deviceContext = ::CreateCompatibleDC(NULL);
+			if (deviceContext != NULL)
+			{
+				::SelectObject(deviceContext, bitmapHandle);
+
+				for (int i = 0; i < size.cx; i++)
+				{
+					for (int j = 0; j < size.cy; j++)
+					{
+						COLORREF color = ::GetPixel(deviceContext, i, j);
+						GLubyte r = (color & 0x000000FF) >> 0;
+						GLubyte g = (color & 0x0000FF00) >> 8;
+						GLubyte b = (color & 0x00FF0000) >> 16;
+						GLubyte a = (r == 152 && g == 0 && b == 136) ? 0x00 : 0xFF;
+
+						texel[0] = r;
+						texel[1] = g;
+						texel[2] = b;
+						texel[3] = a;
+
+						texel += 4;
+					}
+				}
+
+				::DeleteDC(deviceContext);
+			}
+		}
+
+		DeleteObject(bitmapHandle);
+	}
+
+	return data;
 }
+
+#endif //BMP_SUPPORT
 
 // Figure out what type of image
 // file we're trying to load and
@@ -304,8 +361,10 @@ static GLubyte *LoadTextureData(const char *filename, GLsizei *width, GLsizei *h
 		return LoadTIFTextureData(filename, width, height);
 #endif //TIFF_SUPPORT
 
+#if defined BMP_SUPPORT
 	if(strcmp(str, ".bmp") == 0)
 		return LoadBMPTextureData(filename, width, height);
+#endif //BMP_SUPPORT
 
 	// Unsupported texture format!
 	fprintf(stderr, "\"%s\" is an unsupported texture format!\n", str);
