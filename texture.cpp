@@ -11,11 +11,15 @@
 #if defined TIFF_SUPPORT
 #include <tiff.h>
 #include <tiffio.h>
-#endif
+#endif //TIFF_SUPPORT
 #if defined BMP_SUPPORT
 #include <Windows.h>
 #include <WinUser.h>
 #endif //BMP_SUPPORT
+#if defined STB_SUPPORT
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
+#endif //STB_SUPPORT
 #include "texture.h"
 #include "macros.h"
 #include "main.h"
@@ -299,6 +303,7 @@ static GLubyte *LoadBMPTextureData(const char *filename, GLsizei *width, GLsizei
 	strcat_s(fullPath, sizeof(fullPath), "\\");
 	strcat_s(fullPath, sizeof(fullPath), filename);
 
+	// TODO: This code doesn't work at all.  Fix it.
 	HBITMAP bitmapHandle = (HBITMAP)::LoadImage(::GetModuleHandle(NULL), fullPath, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	if (bitmapHandle != NULL)
 	{
@@ -347,6 +352,55 @@ static GLubyte *LoadBMPTextureData(const char *filename, GLsizei *width, GLsizei
 
 #endif //BMP_SUPPORT
 
+#if defined STB_SUPPORT
+
+static GLubyte* LoadSTBTextureData(const char* filename, GLsizei* width, GLsizei* height)
+{
+	GLubyte* data = nullptr;
+
+	printf("Loading: %s\n", filename);
+	int channels = 0;
+	stbi_uc* pixels = stbi_load(filename, width, height, &channels, STBI_rgb_alpha);
+	if (!pixels)
+		fprintf(stderr, "Failed to load!\n");
+	else
+	{
+		printf("Dimensions: %d x %d\n", *width, *height);
+		printf("Channels: %d\n", channels);
+
+		int texel_count = *width * *height;
+		int bpp = 4;
+		int buf_size = texel_count * bpp;
+		data = new GLubyte[buf_size];
+		memset((void*)data, 0, buf_size);
+
+		for (int i = 0; i < *width; i++)
+		{
+			for (int j = 0; j < *height; j++)
+			{
+				int dstOffset = (j * *width + i) * bpp;
+				int srcOffset = ((*height - 1 - j) * *width + i) * bpp;
+
+				GLubyte* dstTexel = &data[dstOffset];
+				GLubyte* srcTexel = &pixels[srcOffset];
+
+				memcpy(dstTexel, srcTexel, bpp);
+
+				if (dstTexel[0] == 152 && dstTexel[1] == 0 && dstTexel[2] == 136)
+					dstTexel[3] = 0x00;
+				else
+					dstTexel[3] = 0xFF;
+			}
+		}
+
+		stbi_image_free(pixels);
+	}
+
+	return data;
+}
+
+#endif //STB_SUPPORT
+
 // Figure out what type of image
 // file we're trying to load and
 // go load it.
@@ -365,6 +419,10 @@ static GLubyte *LoadTextureData(const char *filename, GLsizei *width, GLsizei *h
 	if(strcmp(str, ".bmp") == 0)
 		return LoadBMPTextureData(filename, width, height);
 #endif //BMP_SUPPORT
+
+#if defined STB_SUPPORT
+	return LoadSTBTextureData(filename, width, height);
+#endif //STB_SUPPORT
 
 	// Unsupported texture format!
 	fprintf(stderr, "\"%s\" is an unsupported texture format!\n", str);
